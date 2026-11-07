@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Inicio</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+            padding-top: 20px;
+        }
+
+        /* ===== MENÚ ANIMADO ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            animation: deslizarAbajo 1s ease-out;
+        }
+
+        @keyframes deslizarAbajo {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-wrapper {
+            padding: 0 20px;
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFC107, transparent);
+            animation: brillo 3s ease-in-out infinite;
+        }
+
+        @keyframes brillo {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .brand-logo {
+            font-weight: bold;
+            color: white;
+            animation: aparecer 1.2s ease-out;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .nav-wrapper ul li a {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-wrapper ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #FFC107;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-wrapper ul li a:hover {
+            color: #FFC107 !important;
+        }
+
+        .nav-wrapper ul li a:hover::after {
+            width: 80%;
+        }
+        /* ===== FIN DEL MENÚ ANIMADO ===== */
+
+        .btn-login {
+            background-color: #1976d2;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background-color: #1565c0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+        }
+        footer.page-footer {
+            background-color: #0d47a1 !important;
+            color: #ffffff !important;
+            padding: 15px 0;
+            font-size: 0.85rem;
+            margin-top: 60px;
+        }
+        .login-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: calc(100vh - 160px);
+            gap: 24px;
+            padding-top: 80px;
+            padding-bottom: 10px;
+        }
+        .login-card {
+            padding: 40px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            margin: 0;
+            animation: tarjetaEntrada 1s ease-out 0.3s both;
+        }
+
+        @keyframes tarjetaEntrada {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-box {
+            height: 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            background: transparent;
+            width: 100%;
+            animation: imagenEntrada 1s ease-out 0.6s both;
+        }
+
+        @keyframes imagenEntrada {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .responsive-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+            display: block;
+        }
+        .col-image-wrapper {
+            padding-left: 0;
+        }
+        @media only screen and (max-width: 600px) {
+            .login-row {
+                display: block;
+                min-height: auto;
+                padding-top: 100px;
+            }
+            .image-box {
+                display: none;
+            }
+            .login-card {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú de Navegación -->
+    <nav>
+        <div class="nav-wrapper">
+            <a href="login.html" class="brand-logo">SGDEA</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="login.html">Inicio</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="row login-row">
+                <!-- Columna izquierda: formulario -->
+                <div class="col s12 m5">
+                    <div class="login-card">
+                        <h4 class="center-align" style="color: #0d47a1;">Iniciar Sesión</h4>
+                        <form id="loginForm">
+                            <div class="input-field">
+                                <input type="text" id="user" required>
+                                <label for="user">Usuario</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="password" id="pass" required>
+                                <label for="pass">Contraseña</label>
+                            </div>
+                            <div class="input-field">
+                                <select id="rol">
+                                    <option value="" disabled selected>Seleccione su rol</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Usuario</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-large btn-login">INGRESAR</button>
+
+                            <div class="center-align" style="margin-top: 20px;">
+                                <a href="cambio_contraseña.html"
+                                    style="color: #0d47a1; font-size: 0.9rem; text-decoration: underline;">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Columna derecha: imagen -->
+                <div class="col s12 m7 hide-on-small-only col-image-wrapper">
+                    <div class="image-box">
+                        <img src="imagenes/SGDEA.jpg" alt="SGDEA" class="responsive-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer center-align">
+        <p>Empresa Proyectar S.A. | Calle 43 No. 57 - 14, Bogotá D.C. | Tel: +57 (601) 222 2700</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.FormSelect.init(document.querySelectorAll('select'));
+        });
+
+        // Usuarios autorizados
+        const usuariosValidos = {
+            admin: { pass: 'admin123', rol: '1' },
+            cristian: { pass: '123456', rol: '2' }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById('user').value;
+            const clave = document.getElementById('pass').value;
+            const rol = document.getElementById('rol').value;
+
+            if (usuariosValidos[usuario] && 
+                usuariosValidos[usuario].pass === clave &&
+                usuariosValidos[usuario].rol === rol) {
+                
+                // Guardar sesión
+                localStorage.setItem('usuarioActivo', usuario);
+                localStorage.setItem('rolActivo', rol);
+                
+                // Redirigir al panel principal
+                window.location.href = "planillas.html";
+            } else {
+                alert('❌ Usuario, contraseña o rol incorrectos. Inténtalo de nuevo.');
+            }
+        });
+    </script>
+</body>
+</html>
