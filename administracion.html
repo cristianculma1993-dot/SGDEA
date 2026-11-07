@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Administración</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #ffebee 0%, #f4f7f6 100%);
+            min-height:100vh; display:flex; flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px; margin-top:80px;}
+
+        .nav-wrapper {
+            background: linear-gradient(90deg, #b71c1c, #c62828);
+            padding:0 25px; box-shadow:0 4px 15px rgba(183,28,28,0.2);
+            position:fixed; top:0; left:0; right:0; z-index:999;
+        }
+        .brand-logo {color:white !important; font-weight:700;}
+        .btn-volver {margin-left:15px;}
+
+        .contenedor {
+            max-width:1000px; margin:0 auto; padding:0 20px;
+            animation: aparecer 0.7s ease-out;
+        }
+        @keyframes aparecer {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .titulo-pagina {
+            color:#b71c1c; font-weight:700; text-align:center;
+            margin-bottom:35px;
+        }
+
+        .seccion-card {
+            background:white; border-radius:16px; padding:25px; margin-bottom:25px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+            transition:all 0.3s ease;
+        }
+        .seccion-card:hover {
+            box-shadow:0 8px 25px rgba(183,28,28,0.08);
+        }
+        .seccion-card h5 {color:#b71c1c; font-weight:600; margin-bottom:20px;}
+
+        .tabla-datos {width:100%; border-collapse:collapse;}
+        .tabla-datos th {
+            background:linear-gradient(90deg, #b71c1c, #c62828);
+            color:white; padding:14px; text-align:left;
+        }
+        .tabla-datos td {padding:12px; border-bottom:1px solid #eee;}
+        .tabla-datos tr:hover {background:#fff5f5;}
+
+        .btn-opcion {border-radius:8px; margin:3px;}
+        .badge-admin {background:#c62828; color:white; padding:3px 8px; border-radius:12px; font-size:0.85rem;}
+        .badge-usuario {background:#1976d2; color:white; padding:3px 8px; border-radius:12px; font-size:0.85rem;}
+
+        .alerta-prohibido {
+            background:#ffebee; border-left:5px solid #c62828;
+            padding:20px; border-radius:8px; text-align:center;
+            display:none;
+        }
+
+        footer {background:#b71c1c; color:white; text-align:center; padding:15px 0; margin-top:50px;}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="planillas.html" class="brand-logo center">⚙️ Administración</a>
+            <a href="planillas.html" class="btn-volver waves-effect waves-light red darken-3 white-text">← Volver</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="contenedor" id="contenidoPrincipal">
+            <h3 class="titulo-pagina">⚙️ Gestión de Usuarios del Sistema</h3>
+
+            <!-- ALERTA SI NO ES ADMINISTRADOR -->
+            <div class="alerta-prohibido" id="alertaProhibido">
+                <i class="material-icons" style="font-size:48px; color:#c62828;">lock</i>
+                <h5>Acceso Restringido</h5>
+                <p>Solo los usuarios con rol de Administrador pueden acceder a esta página.</p>
+                <a href="planillas.html" class="btn red darken-2 waves-effect" style="margin-top:15px;">Volver al Panel</a>
+            </div>
+
+            <!-- CREAR USUARIO -->
+            <div class="seccion-card" id="seccionCrear">
+                <h5>➕ Crear Nuevo Usuario</h5>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <input type="text" id="nuevoNombre">
+                        <label for="nuevoNombre">Nombre Completo</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input type="email" id="nuevoCorreo">
+                        <label for="nuevoCorreo">Correo Electrónico</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input type="password" id="nuevaClave">
+                        <label for="nuevaClave">Contraseña</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <select id="nuevoRol">
+                            <option value="" disabled selected>Selecciona un rol</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Usuario</option>
+                        </select>
+                        <label>Rol en el Sistema</label>
+                    </div>
+                    <div class="col s12">
+                        <button class="btn waves-effect waves-light red darken-2" style="width:100%;">
+                            <i class="material

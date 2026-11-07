@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Panel Principal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #e8f0fa 0%, #f4f7f6 100%);
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px;}
+
+        /* ===== MENÚ ===== */
+        .nav-wrapper {
+            background: linear-gradient(90deg, #0d47a1, #1565c0, #1976d2);
+            padding:0 25px;
+            box-shadow:0 4px 15px rgba(13,71,161,0.2);
+            position:fixed; top:0; left:0; right:0; z-index:999;
+            animation: deslizarAbajo 0.8s ease-out;
+        }
+        @keyframes deslizarAbajo {
+            from {transform:translateY(-100%); opacity:0;}
+            to {transform:translateY(0); opacity:1;}
+        }
+        .brand-logo {
+            font-weight:700; font-size:1.4rem !important;
+            color:white !important;
+            display:flex; align-items:center; gap:8px;
+        }
+        .user-name {
+            background:rgba(255,255,255,0.18); padding:0 18px; border-radius:25px;
+            margin-right:12px;
+        }
+        .cerrar-sesion {
+            background:rgba(244,67,54,0.2); border-radius:25px;
+            transition:all 0.3s ease;
+        }
+        .cerrar-sesion:hover {background:rgba(244,67,54,0.35);}
+
+        /* ===== CONTENIDO ===== */
+        .contenido-principal {margin-top:90px;}
+        .titulo-principal {
+            color:#0d47a1; font-weight:700; text-align:center;
+            margin-bottom:15px;
+            animation: entradaTitulo 1s ease-out;
+        }
+        @keyframes entradaTitulo {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .subtitulo {text-align:center; color:#555; margin-bottom:40px;}
+
+        /* ===== GRID TARJETAS ===== */
+        .grid-tarjetas {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+            gap:25px;
+        }
+        .tarjeta {
+            background:white; border-radius:20px; padding:30px 25px;
+            box-shadow:0 6px 20px rgba(13,71,161,0.08);
+            cursor:pointer; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity:0; transform:translateY(30px);
+            animation: entradaTarjeta 0.7s ease forwards;
+            position:relative; overflow:hidden;
+        }
+        .tarjeta:nth-child(1) {animation-delay:0.1s;}
+        .tarjeta:nth-child(2) {animation-delay:0.2s;}
+        .tarjeta:nth-child(3) {animation-delay:0.3s;}
+        .tarjeta:nth-child(4) {animation-delay:0.4s;}
+        .tarjeta:nth-child(5) {animation-delay:0.5s;}
+        .tarjeta:nth-child(6) {animation-delay:0.6s;}
+
+        @keyframes entradaTarjeta {
+            to {opacity:1; transform:translateY(0);}
+        }
+        .tarjeta:hover {
+            transform:translateY(-8px);
+            box-shadow:0 12px 35px rgba(13,71,161,0.15);
+        }
+        .tarjeta::before {
+            content:''; position:absolute; top:0; left:0; width:5px; height:100%;
+            transition:width 0.3s ease;
+        }
+        .tarjeta:hover::before {width:100%; opacity:0.05;}
+
+        .tarjeta.resumen::before {background:#1976d2;}
+        .tarjeta.pqrs::before {background:#7B1FA2;}
+        .tarjeta.gestion::before {background:#2E7D32;}
+        .tarjeta.firmas::before {background:#EF6C00;}
+        .tarjeta.movimientos::before {background:#00838F;}
+        .tarjeta.admin::before {background:#C62828;}
+
+        .icono-tarjeta {
+            font-size:48px; margin-bottom:15px;
+            transition:transform 0.4s ease;
+        }
+        .tarjeta:hover .icono-tarjeta {transform:scale(1.15) rotate(5deg);}
+        .tarjeta h5 {font-weight:700; margin-bottom:8px;}
+        .tarjeta p {color:#666; font-size:0.95rem;}
+        .badge-numero {
+            position:absolute; top:20px; right:20px;
+            background:linear-gradient(135deg, #0d47a1, #1976d2);
+            color:white; border-radius:20px; padding:5px 14px;
+            font-weight:700; font-size:1.1rem;
+        }
+        .badge-pqrs {background:linear-gradient(135deg, #7B1FA2, #9C27B0);}
+        .badge-rojo {background:linear-gradient(135deg, #C62828, #E53935);}
+
+        /* ===== SOLO ADMINISTRADOR ===== */
+        .solo-admin {display:none;}
+
+        footer {
+            background:#0d47a1; color:white; text-align:center;
+            padding:15px 0; margin-top:50px; font-size:0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ SUPERIOR -->
+    <nav>
+        <div class="nav-wrapper">
+            <a href="planillas.html" class="brand-logo left">📁 SGDEA</a>
+            <ul class="right">
+                <li class="white-text user-name">👤 <span id="usuarioNombre"></span></li>
+                <li id="menuAdmin" class="solo-admin"><a href="administracion.html" class="white-text">⚙️ Administración</a></li>
+                <li><a href="#" onclick="cerrarSesion()" class="white-text cerrar-sesion">Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container contenido-principal">
+        <h3 class="titulo-principal">📊 Panel de Control — Gestión Documental</h3>
+        <p class="subtitulo">Bienvenido al sistema de gestión documental de la empresa Proyectar S.A.</p>
+
+        <div class="grid-tarjetas">
+            <!-- 📈 RESUMEN GENERAL -->
+            <div class="tarjeta resumen" onclick="window.location.href='resumen.html'">
+                <span class="badge-numero">28</span>
+                <i class="material-icons icono-tarjeta" style="color:#1976d2;">analytics</i>
+                <h5>Resumen General</h5>
+                <p>Estado de radicados, documentos por archivar y pendientes del sistema</p>
+            </div>
+
+            <!-- 📩 PQRS -->
+            <div class="tarjeta pqrs" onclick="window.location.href='pqrs.html'">
+                <span class="badge-numero badge-pqrs">3 ⚠️</span>
+                <i class="material-icons icono-tarjeta" style="color:#7B1FA2;">contact_support</i>
+                <h5>PQRS</h5>
+                <p>Peticiones, quejas, reclamos, respuestas y seguimiento</p>
+            </div>
+
+            <!-- 📁 GESTIÓN DOCUMENTAL -->
+            <div class="tarjeta gestion" onclick="window.location.href='gestion.html'">
+                <i class="material-icons icono-tarjeta" style="color:#2E7D32;">folder_open</i>
+                <h5>Gestión Documental</h5>
+                <p>Árbol de clasificación, tablas de retención, versiones y radicación</p>
+            </div>
+
+            <!-- ✍️ FIRMAS Y DOCUMENTOS -->
+            <div class="tarjeta firmas" onclick="window.location.href='firmas.html'">
+                <i class="material-icons icono-tarjeta" style="color:#EF6C00;">draw</i>
+                <h5>Firmas y Documentos</h5>
+                <p>Firmar documentos y crear respuestas internas para PQRS</p>
+            </div>
+
+            <!-- 🔄 ENTRADA / SALIDA -->
+            <div class="tarjeta movimientos" onclick="window.location.href='movimientos.html'">
+                <i class="material-icons icono-tarjeta" style="color:#00838F;">swap_horiz</i>
+                <h5>Entrada / Salida</h5>
+                <p>Control de movimientos de documentos dentro y fuera de la empresa</p>
+            </div>
+
+            <!-- ⚙️ ADMINISTRACIÓN -->
+            <div class="tarjeta admin solo-admin" onclick="window.location.href='administracion.html'">
+                <span class="badge-numero badge-rojo">Solo Admin</span>
+                <i class="material-icons icono-tarjeta" style="color:#C62828;">settings</i>
+                <h5>Administración</h5>
+                <p>Crear usuarios, eliminar y cambiar contraseñas del sistema</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Empresa Proyectar S.A. — Sistema de Gestión Documental SGDEA</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Mostrar usuario y menú según el rol
+        window.addEventListener('load', function() {
+            const usuario = localStorage.getItem('usuarioActivo') || localStorage.getItem('usuarioActivo');
+            const rol = localStorage.getItem('rolActivo') || localStorage.getItem('rolActivo');
+            
+            if (!usuario) {
+                alert('⚠️ Debes iniciar sesión primero');
+                window.location.href = "login.html";
+                return;
+            }
+            
+            document.getElementById('usuarioNombre').textContent = usuario;
+            
+            // Mostrar SOLO Administración si es rol = 1 (Administrador)
+            if (rol === '1' || rol === 'admin') {
+                document.querySelectorAll('.solo-admin').forEach(el => el.style.display = 'block');
+            }
+        });
+
+        function cerrarSesion() {
+            localStorage.removeItem('usuarioActivo');
+            localStorage.removeItem('rolActivo');
+            localStorage.removeItem('usuarioActivo');
+            localStorage.removeItem('rolActivo');
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

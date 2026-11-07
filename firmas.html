@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Firmas y Documentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #FFF3E0 0%, #F4F7F6 100%);
+            min-height:100vh; display:flex; flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px; margin-top:80px;}
+
+        .nav-wrapper {
+            background: linear-gradient(90deg, #E65100, #EF6C00);
+            padding:0 25px; box-shadow:0 4px 15px rgba(230,81,0,0.2);
+            position:fixed; top:0; left:0; right:0; z-index:999;
+        }
+        .brand-logo {color:white !important; font-weight:700;}
+        .btn-volver {margin-left:15px;}
+
+        .contenedor {
+            max-width:1100px; margin:0 auto; padding:0 20px;
+            animation:aparecer 0.7s ease-out;
+        }
+        @keyframes aparecer {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .titulo-pagina {
+            color:#E65100; font-weight:700; text-align:center;
+            margin-bottom:35px;
+        }
+
+        .seccion-card {
+            background:white; border-radius:16px; padding:25px; margin-bottom:25px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+            border-top:4px solid;
+            transition:all 0.3s ease;
+        }
+        .seccion-card:hover {
+            transform:translateY(-3px);
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        }
+        .seccion-card.firmas {border-top-color:#E65100;}
+        .seccion-card.respuestas {border-top-color:#7B1FA2;}
+
+        .btn-opcion {border-radius:8px; margin:5px;}
+
+        footer {background:#E65100; color:white; text-align:center; padding:15px 0; margin-top:50px;}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="planillas.html" class="brand-logo center">✍️ Firmas y Documentos</a>
+            <a href="planillas.html" class="btn-volver waves-effect waves-light orange darken-3 white-text">← Volver</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="contenedor">
+            <h3 class="titulo-pagina">✍️ Firmas de Documentos y Respuestas Internas</h3>
+
+            <!-- FIRMAS DE DOCUMENTOS -->
+            <div class="seccion-card firmas">
+                <h5 style="color:#E65100; font-weight:600;">✍️ Firmas de Documentos</h5>
+                <p style="color:#666; margin-bottom:20px;">Documentos pendientes de firma digital o autorización</p>
+                
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th># Documento</th>
+                            <th>Asunto</th>
+                            <th>Área</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DOC-2026-001</td>
+                            <td>Contrato de servicios</td>
+                            <td>Contratación</td>
+                            <td><span class="orange-text">⏳ Pendiente de firma</span></td>
+                            <td><a class="btn-small orange darken-2 waves-effect">Firmar</a></td>
+                        </tr>
+                        <tr>
+                            <td>DOC-2026-002</td>
+                            <td>Acta de reunión mensual</td>
+                            <td>Administrativa</td>
+                            <td><span class="green-text">✅ Firmado</span></td>
+                            <td><a class="btn-small grey darken-1 waves-effect">Ver</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <a class="btn orange darken-2 waves-effect btn-opcion modal-trigger" href="#modal-subir-firma">
+                    <i class="material-icons left">upload_file</i>Subir Documento para Firma
+                </a>
+            </div>
+
+            <!-- CREAR DOCUMENTO INTERNO PARA RESPUESTA A PQRS -->
+            <div class="seccion-card respuestas">
+                <h5 style="color:#7B1FA2; font-weight:600;">📄 Crear Documento Interno — Respuesta a PQRS</h5>
+                <

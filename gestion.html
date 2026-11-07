@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Gestión Documental</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f4f7f6 100%);
+            min-height:100vh; display:flex; flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px; margin-top:80px;}
+
+        .nav-wrapper {
+            background: linear-gradient(90deg, #1B5E20, #2E7D32);
+            padding:0 25px; box-shadow:0 4px 15px rgba(27,94,32,0.2);
+            position:fixed; top:0; left:0; right:0; z-index:999;
+        }
+        .brand-logo {color:white !important; font-weight:700;}
+        .btn-volver {margin-left:15px;}
+
+        .contenedor {
+            max-width:1200px; margin:0 auto; padding:0 20px;
+            animation:aparecer 0.7s ease-out;
+        }
+        @keyframes aparecer {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .titulo-pagina {
+            color:#1B5E20; font-weight:700; text-align:center;
+            margin-bottom:35px;
+        }
+
+        /* ===== TARJETAS DE SECCIÓN ===== */
+        .seccion-card {
+            background:white; border-radius:16px; padding:25px; margin-bottom:30px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+            transition:all 0.3s ease;
+        }
+        .seccion-card:hover {
+            box-shadow:0 8px 25px rgba(46,125,50,0.1);
+        }
+        .seccion-titulo {
+            font-size:1.2rem; font-weight:600; color:#1B5E20;
+            margin-bottom:20px; padding-bottom:10px;
+            border-bottom:2px solid #e8f5e9;
+            display:flex; align-items:center; gap:10px;
+            cursor:pointer;
+            justify-content:space-between;
+        }
+        .flecha-seccion {transition:transform 0.3s ease; font-size:24px;}
+        .contenedor-seccion {
+            max-height:0; overflow:hidden;
+            transition:max-height 0.5s ease, opacity 0.3s ease;
+            opacity:0;
+        }
+        .seccion-abierta .contenedor-seccion {
+            max-height:5000px; opacity:1;
+        }
+        .seccion-abierta .flecha-seccion {transform:rotate(180deg);}
+
+        /* ===== ÁREAS DOCUMENTALES ===== */
+        .area-card {
+            background:#f8faf8; border-radius:12px; padding:20px; margin-bottom:15px;
+            border-left:4px solid #2E7D32;
+            transition:all 0.3s ease;
+        }
+        .area-card:hover {background:#f0f8f0; transform:translateX(5px);}
+        .area-titulo {font-weight:600; color:#1B5E20; margin-bottom:10px;}
+        .btn-opcion {border-radius:8px; margin:5px;}
+        .grupo-botones {margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;}
+
+        /* ===== ÁRBOL DE CLASIFICACIÓN ===== */
+        .arbol {font-family:inherit;}
+        .nivel-1 {margin-left:0;}
+        .nivel-2 {margin-left:25px; border-left:1px dashed #ccc; padding-left:15px;}
+        .nivel-3 {margin-left:50px; border-left:1px dashed #ddd; padding-left:15px;}
+        
+        .nodo {
+            padding:10px 12px; margin:5px 0; border-radius:8px;
+            cursor:pointer; transition:all 0.25s ease;
+            display:flex; align-items:center; gap:8px;
+            user-select:none;
+        }
+        .nodo:hover {background:#e8f5e9;}
+        .nodo.serie {background:#c8e6c9; font-weight:600;}
+        .nodo.subserie {background:#e8f5e9;}
+        .nodo.expediente {background:#f1f8e9;}
+        
+        .flecha-nodo {transition:transform 0.3s ease; font-size:16px; min-width:20px; text-align:center;}
+        .cerrado > .flecha-nodo {transform:rotate(-90deg);}
+        .contenedor-nodo {max-height:0; overflow:hidden; transition:max-height 0.4s ease;}
+        .abierto > .contenedor-nodo {max-height:2000px;}
+
+        /* ===== TABLA DE RETENCIÓN ===== */
+        .tabla-retencion {width:100%; border-collapse:separate; border-spacing:0; border-radius:10px; overflow:hidden; margin-top:15px;}
+        .tabla-retencion th {background:#1B5E20; color:white; padding:14px 12px; text-align:left; font-weight:600;}
+        .tabla-retencion td {padding:12px; border-bottom:1px solid #e8e8e8;}
+        .tabla-retencion tr:hover td {background:#f4f9f4;}
+        .etiqueta-gestion {background:#c8e6c9; color:#1B5E20; padding:3px 8px; border-radius:12px; font-size:0.85rem; font-weight:500;}
+        .etiqueta-central {background:#bbdefb; color:#0D47A1; padding:3px 8px; border-radius:12px; font-size:0.85rem; font-weight:500;}
+        .etiqueta-historial {background:#e1bee7; color:#4A148C; padding:3px 8px; border-radius:12px; font-size:0.85rem; font-weight:500;}
+
+        /* ===== VERSIONES ===== */
+        .version-item {
+            display:flex; align-items:center; gap:15px; padding:12px;
+            border-bottom:1px solid #eee; transition:background 0.2s ease;
+        }
+        .version-item:hover {background:#f8f9fa;}
+        .version-numero {
+            background:linear-gradient(135deg, #1B5E20, #2E7D32); color:white;
+            width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-weight:700; flex-shrink:0;
+        }
+        .version-actual {box-shadow:0 0 0 3px rgba(46,125,50,0.3);}
+
+        footer {background:#1B5E20; color:white; text-align:center; padding:15px 0; margin-top:50px;}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="planillas.html" class="brand-logo center">📁 Gestión Documental</a>
+            <a href="planillas.html" class="btn-volver waves-effect waves-light green darken-3 white-text">← Volver</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="contenedor">
+            <h3 class="titulo-pagina">📁 Gestión Documental — Archivo, Clasificación y Control</h3>
+
+            <!-- ================================================== -->
+            <!-- 📂 SECCIÓN 1: ÁREAS Y OPERACIONES -->
+            <!-- ================================================== -->
+            <div class="seccion-card seccion-abierta" onclick="toggleSeccion(this)">
+                <div class="seccion-titulo">
+                    📂 Áreas Documentales y Operaciones
+                    <i class="material-icons flecha-seccion">expand_more</i>
+                </div>
+                <div class="contenedor-seccion">
+                    
+                    <!-- CONTRATOS -->
+                    <div class="area-card">
+                        <div class="area-titulo">📑 Contratos</div>
+                        <p>Gestión de contratos, convenios, actas de liquidación y documentos legales</p>
+                        <div class="grupo-botones">
+                            <a class="btn blue darken-2 waves-effect btn-opcion modal-trigger" href="#modal-carpeta-contratos">
+                                <i class="material-icons left">create_new_folder</i>Crear Carpeta
+                            </a>
+                            <a class="btn green darken-2 waves-effect btn-opcion">
+                                <i class="material-icons left">cloud_upload</i>Subir Archivo
+                            </a>
+                            <a class="btn grey darken-1 waves-effect btn-opcion">
+                                <i class="material-icons left">visibility</i>Ver Archivos
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- RECURSOS HUMANOS -->
+                    <div class="area-card">
+                        <div class="area-titulo">👥 Recursos Humanos</div>
+                        <p>Hojas de vida, novedades de personal, nómina y capacitaciones</p>
+                        <div class="grupo-botones">
+                            <a class="btn blue darken-2 waves-effect btn-opcion modal-trigger" href="#modal-carpeta-rrhh">
+                                <i class="material-icons left">create_new_folder</i>Crear Carpeta
+                            </a>
+                            <a class="btn green darken-2 waves-effect btn-opcion">
+                                <i class="material-icons left">cloud_upload</i>Subir Archivo
+                            </a>
+                            <a class="btn grey darken-1 waves-effect btn-opcion">
+                                <i class="material-icons left">visibility</i>Ver Archivos
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- FINANCIERA -->
+                    <div class="area-card">
+                        <div class="area-titulo">💰 Área Financiera</div>
+                        <p>Facturas, comprobantes, presupuesto y contabilidad</p>
+                        <div class="grupo-botones">
+                            <a class="btn blue darken-2 waves-effect btn-opcion modal-trigger" href="#modal-carpeta-financiera">
+                                <i class="material-icons left">create_new_folder</i>Crear Carpeta
+                            </a>
+                            <a class="btn green darken-2 waves-effect btn-opcion">
+                                <i class="material-icons left">cloud_upload</i>Subir Archivo
+                            </a>
+                            <a class="btn grey darken-1 waves-effect btn-opcion">
+                                <i class="material-icons left">visibility</i>Ver Archivos
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- RADICAR DOCUMENTO -->
+                    <div class="area-card" style="border-left-color:#1976d2;">
+                        <div class="area-titulo" style="color:#1565C0;">📝 Radicar Nuevo Documento</div>
+                        <p>Registro de entrada y salida con número de radicado único</p>
+                        <div class="row" style="margin-top:15px;">
+                            <div class="input-field col s12 m6">
+                                <input type="text" id="numRadicado">
+                                <label for="numRadicado">Número de Radicado</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input type="date">
+                                <label>Fecha de Recepción</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input type="text" placeholder="Nombre del remitente">
+                                <label>Remitente</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <select>
+                                    <option value="" disabled selected>Tipo de documento</option>
+                                    <option>Entrada</option>
+                                    <option>Salida</option>
+                                </select>
+                                <label>Tipo</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea class="materialize-textarea" placeholder="Descripción del documento"></textarea>
+                                <label>Asunto</label>
+                            </div>
+                            <div class="file-field input-field col s12">
+                                <div class="btn blue darken-2">
+                                    <span>Adjuntar</span>
+                                    <input type="file">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Seleccione el archivo">
+                                </div>
+                            </div>
+                            <div class="col s12">
+                                <button class="btn waves-effect waves-light green darken-2" style="width:100%;">
+                                    <i class="material-icons left">save</i>Registrar Radicado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================== -->
+            <!-- 🌳 SECCIÓN 2: ÁRBOL DE CLASIFICACIÓN -->
+            <!-- ================================================== -->
+            <div class="seccion-card seccion-abierta" onclick="toggleSeccion(this)">
+                <div class="seccion-titulo">
+                    🌳 Árbol de Clasificación Documental
+                    <i class="material-icons flecha-seccion">expand_more</i>
+                </div>
+                <div class="contenedor-seccion">
+                    <p style="color:#666; margin-bottom:15px;">Haz clic en las flechas para abrir/cerrar ramas — Estructura: Fondo → Sección → Serie → Subserie → Expediente</p>
+                    
+                    <div class="arbol">
+                        <!-- FONDO -->
+                        <div class="nivel-1 nodo abierto" onclick="toggleNodoArbol(event, this)">
+                            <span class="flecha-nodo">▼</span>
+                            <span>🏢</span>
+                            <strong>FONDO: Empresa Proyectar S.A.</strong>
+                        </div>
+                        <div class="contenedor-nodo nivel-1">
+                            
+                            <!-- SECCIÓN: CONTRATACIÓN -->
+                            <div class="nivel-2 nodo serie abierto" onclick="toggleNodoArbol(event, this)">
+                                <span class="flecha-nodo">▼</span>
+                                <span>📂</span>
+                                <strong>Sección: Contratación</strong>
+                            </div>
+                            <div class="contenedor-nodo nivel-2">
+                                <div class="nivel-3 nodo subserie abierto" onclick="toggleNodoArbol(event, this)">
+                                    <span class="flecha-nodo">▼</span>
+                                    <span>📁</span>
+                                    <strong>SERIE: Contratos (C-001)</strong>
+                                </div>
+                                <div class="contenedor-nodo nivel-3">
+                                    <div class="nivel-3 nodo expediente">📄 Subserie: Contratos de Servicios — Exp. 2026-

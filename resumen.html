@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Resumen General</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #e8f0fa 0%, #f4f7f6 100%);
+            min-height:100vh; display:flex; flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px; margin-top:80px;}
+
+        .nav-wrapper {
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            padding:0; height:56px; line-height:56px;
+            position:fixed; top:0; left:0; right:0; z-index:999;
+        }
+        .btn-volver {background:rgba(0,0,0,0.1); border-radius:20px; padding:0 15px; font-size:0.9rem;}
+        .btn-volver:hover {background:rgba(0,0,0,0.2);}
+        .brand-logo {color:white !important; font-weight:700; font-size:1.3rem;}
+
+        .contenedor {
+            max-width:1100px; margin:0 auto; padding:0 20px;
+            animation:aparecer 0.7s ease-out;
+        }
+        @keyframes aparecer {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .titulo-pagina {
+            color:#0d47a1; font-weight:700; text-align:center;
+            margin-bottom:40px;
+        }
+
+        .grid-estadisticas {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+            gap:20px; margin-bottom:40px;
+        }
+        .tarjeta-estadistica {
+            background:white; border-radius:16px; padding:25px; text-align:center;
+            box-shadow:0 4px 15px rgba(13,71,161,0.08);
+            transition:transform 0.3s ease;
+        }
+        .tarjeta-estadistica:hover {transform:translateY(-5px);}
+        .numero-grande {font-size:2.8rem; font-weight:700; margin-bottom:5px;}
+        .etiqueta {font-size:0.95rem; color:#666;}
+        .icono-estadistica {font-size:40px; margin-bottom:10px;}
+
+        .seccion-card {
+            background:white; border-radius:16px; padding:25px; margin-bottom:25px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+        }
+        .seccion-card h5 {color:#0d47a1; font-weight:600; margin-bottom:20px;}
+
+        .tabla-datos {width:100%; border-collapse:collapse;}
+        .tabla-datos th {background:#0d47a1; color:white; padding:14px; text-align:left;}
+        .tabla-datos td {padding:12px; border-bottom:1px solid #eee;}
+        .tabla-datos tr:hover {background:#f0f4fa;}
+
+        .estado-a-tiempo {color:#2E7D32; font-weight:500;}
+        .estado-pendiente {color:#EF6C00; font-weight:500;}
+        .estado-vencido {color:#C62828; font-weight:500;}
+
+        footer {background:#0d47a1; color:white; text-align:center; padding:15px 0; margin-top:50px;}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="planillas.html" class="btn-volver">← Volver</a>
+            <span class="brand-logo center">📊 Resumen General</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="contenedor">
+            <h3 class="titulo-pagina">📊 Resumen General del Sistema</h3>
+
+            <!-- TARJETAS DE ESTADÍSTICAS -->
+            <div class="grid-estadisticas">
+                <div class="tarjeta-estadistica">
+                    <i class="material-icons icono-estadistica" style="color:#1976d2;">description</i>
+                    <div class="numero-grande" style="color:#1976d2;">156</div>
+                    <div class="etiqueta">Total Documentos</div>
+                </div>
+                <div class="tarjeta-estadistica">
+                    <i class="material-icons icono-estadistica" style="color:#2E7D32;">archive</i>
+                    <div class="numero-grande" style="color:#2E7D32;">98</div>
+                    <div class="etiqueta">Archivados</div>
+                </div>
+                <div class="tarjeta-estadistica">
+                    <i class="material-icons icono-estadistica" style="color:#EF6C00;">schedule</i>
+                    <div class="numero-grande" style="color:#EF6C00;">28</div>
+                    <div class="etiqueta">Pendientes</div>
+                </div>
+                <div class="tarjeta-estadistica">
+                    <i class="material-icons icono-estadistica" style="color:#7B1FA2;">contact_support</i>
+                    <div class="numero-grande" style="color:#7B1FA2;">30</div>
+                    <div class="etiqueta">PQRS Recibidas</div>
+                </div>
+            </div>
+
+            <!-- DOCUMENTOS RECIENTES -->
+            <div class="seccion-card">
+                <h5>📄 Documentos Recientes</h5>
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th>Radicado</th>
+                            <th>Asunto</th>
+                            <th>Área</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EXT-2026-156</td>
+                            <td>Solicitud de certificación laboral</td>
+                            <td>Recursos Humanos</td>
+                            <td>07/11/2026</td>
+                            <td class="estado-a-tiempo">✅ Archivado</td>
+                        </tr>
+                        <tr>
+                            <td>EXT-2026-155</td>
+                            <td>Factura de servicios mensuales</td>
+                            <td>Financiera</td>
+                            <td>06/11/2026</td>
+                            <td class="estado-pendiente">⏳ En trámite</td>
+                        </tr>
+                        <tr>
+                            <td>INT-2026-089</td>
+                            <td>Contrato de prestación de servicios</td>
+                            <td>Contratación</td>
+                            <td>05/11/2026</td>
+                            <td class="estado-pendiente">⏳ Pendiente de firma</td>
+                        </tr>
+                        <tr>
+                            <td>EXT-2026-154</td>
+                            <td>Respuesta a requerimiento entidad</td>
+                            <td>Administrativa</td>
+                            <td>04/11/2026</td>
+                            <td class="estado-a-tiempo">✅ Archivado</td>
+                        </tr>
+                        <tr>
+                            <td>EXT-2026-153</td>
+                            <td>Queja por demora en respuesta</td>
+                            <td>Atención al Ciudadano</td>
+                            <td>03/11/2026</td>
+                            <td class="estado-vencido">⚠️ Vencido</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- RESUMEN POR ÁREA -->
+            <div class="seccion-card">
+                <h5>📂 Distribución por Área</h5>
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th>Área</th>
+                            <th>Recibidos</th>
+                            <th>En Trámite</th>
+                            <th>Archivados</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Contratación</td>
+                            <td>24</td>
+                            <td>8</td>
+                            <td>16</td>
+                            <td><strong>40</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Recursos Humanos</td>
+                            <td>38</td>
+                            <td>5</td>
+                            <td>33</td>
+                            <td><strong>38</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Financiera</td>
+                            <td>52</td>
+                            <td>7</td>
+                            <td>45</td>
+                            <td><strong>52</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Administrativa</td>
+                            <td>42</td>
+                            <td>8</td>
+                            <td>34</td>
+                            <td><strong>42</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Empresa Proyectar S.A. — Sistema de Gestión Documental SGDEA</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

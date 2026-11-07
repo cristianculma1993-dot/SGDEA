@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - PQRS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            background: linear-gradient(135deg, #f3e7f9 0%, #f4f7f6 100%);
+            min-height:100vh; display:flex; flex-direction:column;
+        }
+        main {flex:1; padding:30px 0 50px; margin-top:80px;}
+
+        .nav-wrapper {
+            background: linear-gradient(90deg, #4A148C, #7B1FA2);
+            padding:0 25px; box-shadow:0 4px 15px rgba(74,20,140,0.2);
+            position:fixed; top:0; left:0; right:0; z-index:999;
+        }
+        .brand-logo {color:white !important; font-weight:700;}
+        .btn-volver {margin-left:15px;}
+
+        .contenedor {
+            max-width:1100px; margin:0 auto; padding:0 20px;
+            animation:aparecer 0.7s ease-out;
+        }
+        @keyframes aparecer {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+        .titulo-pagina {
+            color:#4A148C; font-weight:700; text-align:center;
+            margin-bottom:35px;
+        }
+
+        /* ===== SEMÁFORO ===== */
+        .fila-semaforo {display:flex; flex-wrap:wrap; gap:20px; margin-bottom:40px;}
+        .card-semaforo {
+            flex:1; min-width:260px; border-radius:16px; padding:25px; text-align:center;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+            transition:all 0.3s ease;
+        }
+        .card-semaforo:hover {transform:translateY(-5px);}
+        .card-semaforo.verde {background:#e8f5e9; border-left:5px solid #4CAF50;}
+        .card-semaforo.amarillo {background:#fff8e1; border-left:5px solid #FFC107;}
+        .card-semaforo.rojo {background:#ffebee; border-left:5px solid #F44336;}
+        .circulo {
+            width:32px; height:32px; border-radius:50%; display:inline-block; margin:0 3px;
+            border:2px solid #333;
+        }
+        .circulo.verde {background:#4CAF50;}
+        .circulo.amarillo {background:#FFC107;}
+        .circulo.rojo {background:#F44336;}
+        .circulo.apagado {background:#ddd; border-color:#ccc;}
+        .numero-grande {font-size:2.5rem; font-weight:700; margin:10px 0;}
+
+        /* ===== BOTONES DE ACCIÓN ===== */
+        .grupo-botones {display:flex; flex-wrap:wrap; gap:15px; margin-bottom:30px;}
+        .btn-pqrs {border-radius:10px; flex:1; min-width:200px;}
+
+        /* ===== TABLA ===== */
+        .tarjeta-tabla {
+            background:white; border-radius:16px; padding:25px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.06);
+        }
+        .tabla-datos {width:100%; border-collapse:collapse; margin-top:15px;}
+        .tabla-datos th {
+            background:linear-gradient(90deg, #4A148C, #7B1FA2);
+            color:white; padding:14px; text-align:left;
+        }
+        .tabla-datos td {padding:12px 14px; border-bottom:1px solid #eee;}
+        .tabla-datos tr:hover {background:#f9f6fc;}
+        .estado-a-tiempo {color:#4CAF50; font-weight:600;}
+        .estado-vencer {color:#FF8F00; font-weight:600;}
+        .estado-vencido {color:#E53935; font-weight:600;}
+
+        footer {background:#4A148C; color:white; text-align:center; padding:15px 0; margin-top:50px;}
+    </style>
+</head>
+<body>
+
+    <nav>
+    <div class="nav-wrapper">
+        <a href="planillas.html" class="btn-volver waves-effect white-text" style="position:absolute; left:15px; top:50%; transform:translateY(-50%);">
+            ← Volver
+        </a>
+        <span class="brand-logo center">📩 PQRS</span>
+    </div>
+</nav>
+
+    <main>
+        <div class="contenedor">
+            <h3 class="titulo-pagina">📩 Peticiones, Quejas, Reclamos y Sugerencias</h3>
+
+            <!-- SEMÁFORO DE TIEMPOS -->
+            <h5 style="font-weight:600; margin-bottom:15px;">🚦 Semáforo de Tiempos de Respuesta</h5>
+            <div class="fila-semaforo">
+                <div class="card-semaforo verde">
+                    <div class="circulo verde"></div>
+                    <div class="circulo apagado"></div>
+                    <div class="circulo apagado"></div>
+                    <div class="numero-grande verde-text">18</div>
+                    <h5>A Tiempo</h5>
+                    <p>0 a 3 días hábiles</p>
+                </div>
+                <div class="card-semaforo amarillo">
+                    <div class="circulo apagado"></div>
+                    <div class="circulo amarillo"></div>
+                    <div class="circulo apagado"></div>
+                    <div class="numero-grande amber-text text-darken-3">7</div>
+                    <h5>Por Vencer</h5>
+                    <p>4 a 5 días hábiles</p>
+                </div>
+                <div class="card-semaforo rojo">
+                    <div class="circulo apagado"></div>
+                    <div class="circulo apagado"></div>
+                    <div class="circulo rojo"></div>
+                    <div class="numero-grande red
