@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDEA - Panel Principal</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+            padding: 30px 0 50px;
+        }
+
+        /* ===== MENÚ SUPERIOR ===== */
+        .nav-wrapper {
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            padding: 0 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .brand-logo {
+            font-weight: bold;
+            color: white !important;
+            font-size: 1.4rem !important;
+        }
+        .user-name {
+            background: rgba(255,255,255,0.15);
+            padding: 0 15px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        .cerrar-sesion {
+            background: rgba(244, 67, 54, 0.2);
+            border-radius: 20px;
+        }
+        .cerrar-sesion:hover {
+            background: rgba(244, 67, 54, 0.35);
+        }
+
+        /* ===== TÍTULO ===== */
+        .titulo-principal {
+            color: #0d47a1;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* ===== TARJETAS PRINCIPALES ===== */
+        .tarjeta-principal {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: aparecerTarjeta 0.6s ease forwards;
+        }
+        .tarjeta-principal:nth-child(2) { animation-delay: 0.1s; }
+        .tarjeta-principal:nth-child(3) { animation-delay: 0.2s; }
+        .tarjeta-principal:nth-child(4) { animation-delay: 0.3s; }
+        .tarjeta-principal:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes aparecerTarjeta {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tarjeta-principal:hover {
+            box-shadow: 0 8px 25px rgba(13, 71, 161, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .tarjeta-titulo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0d47a1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            justify-content: space-between;
+        }
+        .icono-flecha {
+            transition: transform 0.3s ease;
+        }
+        .abierto .icono-flecha {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CONTENIDO DESPLEGABLE ===== */
+        .contenido-tarjeta {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .abierto .contenido-tarjeta {
+            max-height: 3000px;
+            opacity: 1;
+        }
+
+        /* ===== SEMÁFORO ===== */
+        .semaforo-card {
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .semaforo-card:hover {
+            transform: scale(1.03);
+        }
+        .semaforo-card.verde { background: #e8f5e9; border: 2px solid #4CAF50; }
+        .semaforo-card.amarillo { background: #fff8e1; border: 2px solid #FFC107; }
+        .semaforo-card.rojo { background: #ffebee; border: 2px solid #F44336; }
+
+        .circulo {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 4px;
+            border: 2px solid #333;
+        }
+        .circulo.verde { background: #4CAF50; }
+        .circulo.amarillo { background: #FFC107; }
+        .circulo.rojo { background: #F44336; }
+        .circulo.apagado { background: #ddd; border-color: #ccc; }
+
+        .numero-grande {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        /* ===== BOTONES DE ACCIÓN ===== */
+        .btn-opcion {
+            width: 100%;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        /* ===== TABLA RESUMEN ===== */
+        .resumen-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+        .resumen-item:hover {
+            background: #e3f2fd;
+        }
+        .resumen-numero {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .naranja { color: #FF9800; }
+        .azul { color: #1976d2; }
+        .verde { color: #4CAF50; }
+        .rojo { color: #F44336; }
+
+        /* ===== TABLA DE LISTADO ===== */
+        .tabla-datos {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .tabla-datos th {
+            background: #0d47a1;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .tabla-datos td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .tabla-datos tr:hover {
+            background: #f5f5f5;
+        }
+
+        footer.page-footer {
+            background-color: #0d47a1 !important;
+            padding: 15px 0;
+            margin-top: 40px;
+        }
+
+        /* ===== OCULTAR/MOSTRAR ADMIN ===== */
+        .solo-admin {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== MENÚ SUPERIOR ===== -->
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo left">📁 SGDEA</a>
+            <ul class="right">
+                <li class="white-text user-name">👤 <span id="usuarioNombre"></span></li>
+                <li id="menuAdmin" class="solo-admin"><a href="#!" class="white-text">⚙️ Administración</a></li>
+                <li><a href="#" onclick="cerrarSesion()" class="white-text cerrar-sesion">Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h3 class="titulo-principal">📊 Panel de Control — Gestión Documental</h3>
+
+        <!-- ================================================== -->
+        <!-- 📦 TARJETA 1: RESUMEN GENERAL -->
+        <!-- ================================================== -->
+        <div class="tarjeta-principal abierto" onclick="toggleTarjeta(this)">
+            <div class="tarjeta-titulo">
+                📈 Resumen General
+                <i class="material-icons icono-flecha">expand_more</i>
+            </div>
+            <div class="contenido-tarjeta">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="resumen-item">
+                            <div class="resumen-numero naranja">28</div>
+                            <strong>Por Archivar</strong>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="resumen-item azul">
+                            <div class="resumen-numero">12</div>
+                            <strong>En Proceso</strong>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="resumen-item verde">
+                            <div class="resumen-numero">156</div>
+                            <strong>Archivados este mes</strong>
+                        </div>
+                    </div>
+                </div>
+                <h6 style="font-weight:600; margin:25px 0 15px;">📋 Complementos pendientes</h6>
+                <ul class="collection">
+                    <li class="collection-item">📄 Fichas técnicas de series documentales — <span class="red-text">5 faltantes</span></li>
+                    <li class="collection-item">📁 Actualizar cuadro de clasificación — Recursos Humanos</li>
+                    <li class="collection-item">🔜 Transferencias documentales al archivo central</li>
+                    <li class="collection-item">📊 Informe anual de gestión documental — Próximo</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- 📩 TARJETA 2: PQRS -->
+        <!-- ================================================== -->
+        <div class="tarjeta-principal" onclick="toggleTarjeta(this)">
+            <div class="tarjeta-titulo">
+                📩 PQRS — Peticiones, Quejas, Reclamos y Sugerencias
+                <i class="material-icons icono-flecha">expand_more</i>
+            </div>
+            <div class="contenido-tarjeta">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="semaforo-card verde">
+                            <div class="circulo verde"></div>
+                            <div class="circulo apagado"></div>
+                            <div class="circulo apagado"></div>
+                            <div class="numero-grande verde">18</div>
+                            <strong>A Tiempo</strong>
+                            <p style="font-size:0.85rem; color:#666;">0 a 3 días hábiles</p>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="semaforo-card amarillo">
+                            <div class="circulo apagado"></div>
+                            <div class="circulo amarillo"></div>
+                            <div class="circulo apagado"></div>
+                            <div class="numero-grande amarillo">7</div>
+                            <strong>Por Vencer</strong>
+                            <p style="font-size:0.85rem; color:#666;">4 a 5 días hábiles</p>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="semaforo-card rojo">
+                            <div class="circulo apagado"></div>
+                            <div class="circulo apagado"></div>
+                            <div class="circulo rojo"></div>
+                            <div class="numero-grande rojo">3</div>
+                            <strong>Vencidos</strong>
+                            <p style="font-size:0.85rem; color:#666;">6+ días hábiles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de PQRS pendientes -->
+                <h6 style="font-weight:600; margin:25px 0 15px;">📋 Estado de PQRS</h6>
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th>N° Radicado</th>
+                            <th>Tipo</th>
+                            <th>Asunto</th>
+                            <th>Estado</th>
+                            <th>Días</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PQRS-001</td>
+                            <td>Petición</td>
+                            <td>Solicitud de copias</td>
+                            <td><span class="green-text">✅ A tiempo</span></td>
+                            <td>2 días</td>
+                        </tr>
+                        <tr>
+                            <td>PQRS-002</td>
+                            <td>Queja</td>
+                            <td>Demora en respuesta</td>
+                            <td><span class="yellow-text">⚠️ Por vencer</span></td>
+                            <td>4 días</td>
+                        </tr>
+                        <tr>
+                            <td>PQRS-003</td>
+                            <td>Reclamo</td>
+                            <td>Información incompleta</td>
+                            <td><span class="red-text">❌ Vencido</span></td>
+                            <td>7 días</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row" style="margin-top:25px;">
+                    <div class="col s12 m6">
+                        <button class="btn waves-effect waves-light blue darken-2 btn-opcion modal-trigger" href="#modal-pqrs">
+                            <i class="material-icons">add_circle</i> Registrar PQRS
+                        </button>
+                    </div>
+                    <div class="col s12 m6">
+                        <button class="btn waves-effect waves-light grey darken-1 btn-opcion">
+                            <i class="material-icons">visibility</i> Ver historial completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- 📁 TARJETA 3: GESTIÓN DOCUMENTAL -->
+        <!-- ================================================== -->
+        <div class="tarjeta-principal" onclick="toggleTarjeta(this)">
+            <div class="tarjeta-titulo">
+                📁 Gestión Documental
+                <i class="material-icons icono-flecha">expand_more</i>
+            </div>
+            <div class="contenido-tarjeta">
+                <h6 style="font-weight:600; margin:10px 0 20px;">⚙️ Procesos</h6>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <button class="btn waves-effect waves-light blue darken-2 btn-opcion modal-trigger" href="#modal-radicar">
+                            <i class="material-icons">description</i> 📝 Radicar Documento
+                        </button>
+                    </div>
+                    <div class="col s12 m6">
+                        <button class="btn waves-effect waves-light green darken-2 btn-opcion modal-trigger" href="#modal-archivar">
+                            <i class="material-icons">archive</i> 📂 Archivar Documentos
+                        </button>
+                    </div>
+                    <div class="col s12 m6">
